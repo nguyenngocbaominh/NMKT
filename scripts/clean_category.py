@@ -7,7 +7,7 @@ def remove_duplicates_and_standardize(df: pd.DataFrame) -> pd.DataFrame:
     """
     print("--- Running: clean_category.py (Xóa & Chuẩn hóa cấu trúc) ---")
 
-    # --- 1. XÓA BẢN GHI TRÙNG LẶP & THIẾU URL ---
+    #1. XÓA BẢN GHI TRÙNG LẶP & THIẾU URL 
     initial_count = len(df)
     
     # Loại bỏ các hàng bị thiếu URL trước khi xóa trùng lặp
@@ -18,8 +18,7 @@ def remove_duplicates_and_standardize(df: pd.DataFrame) -> pd.DataFrame:
     
     deleted_duplicates = initial_count - len(df)
 
-
-    # --- 2. XÓA CÁC BÀI BÁO THIẾU THÔNG TIN TRỌNG YẾU ---
+    # 2. XÓA CÁC BÀI BÁO THIẾU THÔNG TIN TRỌNG YẾU 
     
     # Xác định các cột TỐI THIỂU CẦN CÓ DỮ LIỆU
     key_columns = ['title', 'published', 'category']
@@ -31,9 +30,8 @@ def remove_duplicates_and_standardize(df: pd.DataFrame) -> pd.DataFrame:
     deleted_missing = missing_count_before_drop - len(df)
     print(f"   -> Đã xóa {deleted_duplicates} bản ghi trùng lặp.")
     print(f"   -> Đã xóa {deleted_missing} bài báo do thiếu thông tin ở: {', '.join(key_columns)}.")
-
     
-    # --- 3. CHUẨN HÓA CỘT 'source' và 'category' (Dựa trên dữ liệu thực tế) ---
+    #3. CHUẨN HÓA CỘT 'source' và 'category' (Dựa trên dữ liệu thực tế)
 
     # Áp dụng làm sạch khoảng trắng thừa cho tất cả các cột
     df['source'] = df['source'].str.strip()
@@ -48,13 +46,10 @@ def remove_duplicates_and_standardize(df: pd.DataFrame) -> pd.DataFrame:
     }
     # Chuyển tất cả về dạng Title Case rồi thay thế để bắt các biến thể sai Case
     df['source'] = df['source'].str.title().replace(source_mapping, regex=False)
-
     
     # Chuẩn hóa tên danh mục (Các danh mục đã có dấu chuẩn, chỉ cần đảm bảo thống nhất case)
-    # Ví dụ: 'giải trí' -> 'Giải trí'
     df['category'] = df['category'].str.title()
-    
-    
+       
     # --- 4. XỬ LÝ CÁC GIÁ TRỊ THIẾU CÒN LẠI ---
     
     # Cột 'description' (có thể thiếu, nhưng không xóa cả bài)

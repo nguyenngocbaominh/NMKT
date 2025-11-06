@@ -27,7 +27,9 @@ def clean_id_and_datetime(df: pd.DataFrame) -> pd.DataFrame:
     print(f"      - Số ID bị thiếu: {id_missing}")
 
     if id_duplicates > 0:
+        df.drop_duplicates(subset=['id'], keep='first', inplace=True)
         print(f"      - CẢNH BÁO: Phát hiện {id_duplicates} ID trùng lặp.")
+        print(f" - Đã xóa {id_duplicates} dòng do ID trùng lặp.")
         
     if id_missing > 0:
         df.dropna(subset=['id'], inplace=True)

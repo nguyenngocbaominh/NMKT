@@ -2,7 +2,7 @@ import pandas as pd
 # Import các hàm từ các file khác (đường dẫn tương đối)
 from scripts.clean_text import clean_description_and_title
 from scripts.clean_category import remove_duplicates_and_standardize
-from scripts.clean_datetime import convert_published_time
+from scripts.clean_datetime import clean_id_and_datetime
 
 # Đường dẫn tương đối (Lùi về 1 cấp từ scripts/ -> data-cleaning-project/)
 INPUT_FILE = "../news_NMKT.csv"
@@ -20,10 +20,10 @@ def run_all_cleaning_steps():
     # 2. Áp dụng các bước làm sạch theo thứ tự (THỨ TỰ NÀY ĐÃ ĐƯỢC CHUẨN HÓA CHO NHÓM)
     df = remove_duplicates_and_standardize(df) # Người 2: Xóa trùng lặp trước
     df = clean_description_and_title(df)       # Người 1: Làm sạch văn bản
-    df = convert_published_time(df)            # Người 3: Chuẩn hóa thời gian
+    df = clean_id_and_datetime(df)            # Người 3: Chuẩn hóa thời gian
 
     # 3. Lưu file đã được làm sạch đồng nhất
-    df.to_csv(OUTPUT_FILE, index=False)
+    df.to_csv(OUTPUT_FILE, index=False,encoding='utf-8-sig')
     print(f"\n--- THÀNH CÔNG ---")
     print(f"Quá trình làm sạch dữ liệu hoàn tất. File sạch đã được lưu tại {OUTPUT_FILE}")
 
